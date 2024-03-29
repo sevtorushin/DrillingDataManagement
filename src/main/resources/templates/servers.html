@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Servers</title>
+</head>
+<body>
+<h1>Server details</h1>
+<ul th:each="server : ${servers}">
+    <li><a th:href="@{/servers/getByPort/{port}(port=${server.getLocalPort()})}">
+        <span th:text="${server.getName() + ' port(' + server.getLocalPort() + ')'}"></span>
+    </a></li>
+</ul>
+</body>
+</html>

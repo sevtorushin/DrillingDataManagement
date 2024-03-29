@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create_Server</title>
+</head>
+<body>
+<h1>Create and run a new server</h1>
+<form th:method="POST" th:action="@{/servers/create}" th:object="${metaData}">
+    <label for="name">Name</label>
+    <input type="text" id="name" size="10" value="Server" th:field="*{name}"/>
+    <br>
+    <label for="id">Id</label>
+    <input type="text" id="id" size="2" value="1" th:field="*{id}"/>
+    <br>
+    <label for="port">Port</label>
+    <input type="text" id="port" size="2" required placeholder="7000" th:field="*{port}"/>
+    <br>
+    <label for="maxNumberClient">Clients</label>
+    <input type="text" id="maxNumberClient" size="2" value="10" th:field="*{maxNumberClients}"/>
+    <br>
+    <br>
+    <input type="submit" value="Create"/>
+</form>
+</body>
+</html>

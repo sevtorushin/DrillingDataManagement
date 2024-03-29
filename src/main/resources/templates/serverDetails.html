@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Server details</title>
+    <style type="text/css">
+        TABLE {
+            width: 300px; /* Ширина таблицы */
+            border-collapse: collapse; /* Убираем двойные линии между ячейками */
+        }
+        TD, TH {
+            padding: 3px; /* Поля вокруг содержимого таблицы */
+            border: 1px solid #000000; /* Параметры рамки */
+        }
+        TH {
+            background: #b0e0e6; /* Цвет фона */
+        }
+    </style>
+</head>
+<body>
+<h1>Server</h1>
+<a href="/servers/all">Show all servers</a>
+<br>
+<br>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Local port</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td th:text="${server.id}"></td>
+        <td th:text="${server.name}"></td>
+        <td th:text="${server.localPort}"></td>
+        <td th:text="${server.stopped} ? 'stopped' : 'running'"></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>Client pool details</h3>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Local port</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="client : ${server.clientPool.getAll()}">
+        <td th:text="${client.id}"></td>
+        <td th:text="${client.name}"></td>
+        <td th:text="${client.clientConnection.getRemotePort()}"></td>
+        <td th:text="${client.isClosed()} ? 'closed' : 'connected'"></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>Handlers</h3>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="handler : ${server.getHandlerContainer().getAll()}">
+       <td th:text="${handler.getIdentifier()}"></td>
+    </tr>
+    </tbody>
+</table>
+<br>
+<h3>Tasks</h3>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="task : ${server.getTaskContainer().getAll()}">
+        <td th:text="${task.id}"></td>
+        <td th:text="${task.isDone()} ? 'done' : 'executing'"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
