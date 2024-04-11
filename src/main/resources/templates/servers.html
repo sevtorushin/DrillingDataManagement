@@ -6,9 +6,10 @@
 </head>
 <body>
 <h1>Server details</h1>
+<a href="/servers/create">Create new server<a/>
 <ul th:each="server : ${servers}">
     <li><a th:href="@{/servers/getByPort/{port}(port=${server.getLocalPort()})}">
-        <span th:text="${server.getName() + ' port(' + server.getLocalPort() + ')'}"></span>
+        <span th:text="${server.getName() + ' port(' + server.getLocalPort() + ')'}">none</span>
     </a></li>
 </ul>
 </body>

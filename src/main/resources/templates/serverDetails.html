@@ -8,10 +8,12 @@
             width: 300px; /* Ширина таблицы */
             border-collapse: collapse; /* Убираем двойные линии между ячейками */
         }
+
         TD, TH {
             padding: 3px; /* Поля вокруг содержимого таблицы */
             border: 1px solid #000000; /* Параметры рамки */
         }
+
         TH {
             background: #b0e0e6; /* Цвет фона */
         }
@@ -19,10 +21,35 @@
 </head>
 <body>
 <h1>Server</h1>
+<table>
+    <tr>
+        <td>
+            <form th:method="GET" th:action="@{/servers/start/{port}(port=${server.getLocalPort()})}">
+                <input type="submit" value="Start"/>
+            </form>
+        </td>
+        <td>
+            <form th:method="GET" th:action="@{/tasks/getall/{port}(port=${server.getLocalPort()})}">
+                <input type="submit" value="Add Task"/>
+            </form>
+        </td>
+        <td>
+            <form th:method="GET" th:action="@{/servers/stop/{port}(port=${server.getLocalPort()})}">
+                <input type="submit" value="Stop"/>
+            </form>
+        </td>
+        <td>
+            <form th:method="GET" th:action="@{/servers/drop/{port}(port=${server.getLocalPort()})}">
+                <input type="submit" value="Drop"/>
+            </form>
+        </td>
+    </tr>
+</table>
+
 <a href="/servers/all">Show all servers</a>
 <br>
 <br>
-<table>
+<table id="clientPoolDetails">
     <thead>
     <tr>
         <th>ID</th>
@@ -70,7 +97,7 @@
     </thead>
     <tbody>
     <tr th:each="handler : ${server.getHandlerContainer().getAll()}">
-       <td th:text="${handler.getIdentifier()}"></td>
+        <td th:text="${handler.getIdentifier()}"></td>
     </tr>
     </tbody>
 </table>
