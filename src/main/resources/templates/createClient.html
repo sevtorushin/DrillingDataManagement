@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create_Server</title>
+</head>
+<body>
+<h1>Create and run a new server</h1>
+<form th:method="POST" th:action="@{/clients/create}" th:object="${metaData}">
+    <label for="name">Name</label>
+    <input type="text" id="name" size="10" value="Client" th:field="*{name}"/>
+    <br>
+    <label for="id">Id</label>
+    <input type="text" id="id" size="2" value="1" th:field="*{id}"/>
+    <br>
+    <label for="serverHost">Server host</label>
+    <input type="text" id="serverHost" size="10" required placeholder="127.0.0.1" th:field="*{serverHost}"/>
+    <br>
+    <label for="serverPort">Server port</label>
+    <input type="text" id="serverPort" size="2" required placeholder="7000" th:field="*{serverPort}"/>
+    <br>
+    <label for="autoReconnect">Auto reconnect</label>
+    <input type="checkbox", id="autoReconnect" th:field="*{autoReconnect}">
+    <br>
+    <input type="submit" value="Create and connect"/>
+</form>
+</body>
+</html>

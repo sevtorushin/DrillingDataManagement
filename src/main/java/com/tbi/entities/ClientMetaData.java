@@ -3,11 +3,9 @@ package com.tbi.entities;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
-@ToString
 @NoArgsConstructor
-public class ServerMetaData {
+public class ClientMetaData {
     @Getter
     @Setter
     private String name;
@@ -16,8 +14,11 @@ public class ServerMetaData {
     private Object id;
     @Getter
     @Setter
-    private Integer port;
+    private String serverHost;
     @Getter
     @Setter
-    private Integer maxNumberClients;
+    private int serverPort;
+    @Getter
+    @Setter
+    private Boolean autoReconnect;
 }

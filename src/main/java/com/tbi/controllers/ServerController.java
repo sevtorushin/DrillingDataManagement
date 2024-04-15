@@ -1,7 +1,9 @@
 package com.tbi.controllers;
 
+import clients.another.Client;
 import com.tbi.entities.ServerMetaData;
 import com.tbi.servise.ServerService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -10,21 +12,12 @@ import servers.another.Server;
 
 @Controller
 @RequestMapping("/servers")
+@RequiredArgsConstructor
 public class ServerController {
-
     private final ServerService serverService;
 
-    public ServerController(ServerService serverService) {
-        this.serverService = serverService;
-    }
-
-    @GetMapping
-    public String index() {
-        return "index";
-    }
-
     @GetMapping("/all")
-    public String server(Model model) {
+    public String getAllServers(Model model) {
         model.addAttribute("servers", serverService.getAllServers());
         return "servers";
     }
@@ -42,7 +35,7 @@ public class ServerController {
         return "redirect:/servers/all";
     }
 
-    @GetMapping("/getByPort/{port}")
+    @GetMapping("/details/{port}")
     public String getByPort(@PathVariable int port, Model model) {
         ExtendedServer server = (ExtendedServer) serverService.getServerByPort(port);
         model.addAttribute("server", server);
@@ -53,14 +46,14 @@ public class ServerController {
     public String stopServer(@PathVariable int port) {
         Server server = serverService.getServerByPort(port);
         serverService.stopServer(server);
-        return "redirect:/servers/getByPort/" + port;
+        return "redirect:/servers/details/" + port;
     }
 
     @GetMapping("/start/{port}")
     public String startServer(@PathVariable int port) {
         Server server = serverService.getServerByPort(port);
         serverService.startServer(server);
-        return "redirect:/servers/getByPort/" + port;
+        return "redirect:/servers/details/" + port;
     }
 
     @GetMapping("/drop/{port}")
@@ -68,5 +61,25 @@ public class ServerController {
         Server server = serverService.getServerByPort(port);
         serverService.removeServer(server);
         return "redirect:/servers/all";
+    }
+
+    @GetMapping("/details/{server_port}/pool")
+    public String getByPort(@PathVariable int server_port,
+                            @RequestParam(value = "id", required = false) Integer id,
+                            Model model) {
+        Server server = serverService.getServerByPort(server_port);
+        Client client = server.getClientPool().get(id);
+        model.addAttribute("client", client);
+        model.addAttribute("server", server);
+        return "clientDetails";
+    }
+
+    @GetMapping("/details/{server_port}/pool/drop/{id}")
+    public String dropClient(@PathVariable int server_port,
+                             @PathVariable Integer id){
+        Server server = serverService.getServerByPort(server_port);
+        Client client = server.getClientPool().get(id);
+        serverService.dropClient(server, client);
+        return "redirect:/servers/details/" + server_port;
     }
 }

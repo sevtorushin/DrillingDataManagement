@@ -1,9 +1,9 @@
 package com.tbi.servise;
 
+import clients.another.Client;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import servers.another.ExtendedServer;
 import servers.another.Server;
-import service.IdentifiableTask;
 import service.containers.ServerPool;
 
 import java.io.IOException;
@@ -11,12 +11,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ServerService {
     private final ServerPool serverPool;
-
-    public ServerService(ServerPool serverPool) {
-        this.serverPool = serverPool;
-    }
 
     public Server createServer(Class<? extends Server> serverClass, Integer port, String name, Object id, boolean checkAliveClients, Integer maxNumberClients) {
         Server server = null;
@@ -49,11 +46,6 @@ public class ServerService {
         }
     }
 
-    public void addServer(Server server) {
-        server.start();
-        serverPool.addNew(server);
-    }
-
     public void removeServer(Server server) {
         serverPool.remove(server);
     }
@@ -66,8 +58,7 @@ public class ServerService {
         return serverPool.getOnLocalPort(port);
     }
 
-    public void addTask(ExtendedServer server, IdentifiableTask<Object, ?> task) {
-
-        server.getTaskContainer().addNew(task);
+    public void dropClient(Server server, Client client){
+        server.getClientPool().remove(client);
     }
 }

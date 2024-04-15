@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Servers</title>
+</head>
+<body>
+<h1>Clients list</h1>
+<a href="/clients/create">Create new client</a>
+    <ul th:each="client : ${clients}">
+        <li><a th:href="@{/clients/details/{id}(id=${client.id})}">
+        <span th:text="${client.getName() + ' id=' + client.id + ' server host=' + client.clientConnection.endpoint.hostName
+         + ' local port=' + client.clientConnection.localPort
+         + ' remote port=' + client.clientConnection.remotePort+ ')'}">none</span>
+        </a>
+        </li>
+    </ul>
+</body>
+</html>
